@@ -10,6 +10,8 @@ namespace SumCalculator
 	{
 		static void Main(string[] args)
 		{
+			Controller menu = new Controller();
+			menu.MenuExe();
 		}
 	}
 }
