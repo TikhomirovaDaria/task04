@@ -8,15 +8,37 @@ using System.Globalization;
 
 namespace SumCalculator
 {
+	/// <summary>
+	/// Класс, реализующий несколько версий функции сложения:
+	/// <see = cref "Add1"/>, <see = cref "Add2"/>, <see = cref "Add3"/>,
+	/// <see = cref "Add4"/>, <see = cref "Add5"/>
+	/// </summary>
 	public class Calculator
 	{
-		private NumberFormatInfo separator = new NumberFormatInfo();
+		private NumberFormatInfo separator;
 
+		/// <summary>
+		/// Кнструктор по умочанию
+		/// Создает объект класса <see = cref "NumberFormatInfo"/>
+		/// и инициализирует его свойство точкой, что позволяет
+		/// использовать ее в качестве десятичного разделителя
+		/// </summary>
 		public Calculator()
 		{
+			separator = new NumberFormatInfo();
 			separator.NumberDecimalSeparator = ".";
 		}
 
+		/// <summary>
+		/// Извлекает числа типа double из строки
+		/// </summary>
+		/// <param name="input">Пользовательская строка с числами-аргументами функции сложения</param>
+		/// <param name="delims">Строка, в которой перечислены символы - разделители</param>
+		/// <returns>Возвращает массив чисел типа double, если в строке <see = cref "input"/>
+		/// числ записаны по следующим правилам:
+		/// 1) чисел не меньше 2
+		/// 2) числа разделены тлько символами сроки <see = cref "input"/>
+		/// Иначе возвращает null</returns>
 		private double[] GetNumbers(string input, string delims)
 		{
 			string number = @"(^[+-]?\b[0-9]+(\.?\d+)?\z)|(^\dE[+-]{1}\d\z)";
@@ -35,6 +57,13 @@ namespace SumCalculator
 			return doubleList.ToArray();
 		}
 
+		/// <summary>
+		/// Функция сложения, которая работает корректно только при вводе
+		/// двух чисел типа double, перечисленных через запятую
+		/// </summary>
+		/// <param name="input">Пользовательская строка с числами-аргументами функции сложения</param>
+		/// <returns>Возвращает сумму двух чисел, если введенная строка удовлетворяет указанным требованиям
+		/// и выбрасывает ошибку <see = cref "ArgumentException"/> в противном случае</returns>
 		public double Add1(string input)
 		{
 			double result = 0;
@@ -48,6 +77,13 @@ namespace SumCalculator
 			return result;
 		}
 
+		/// <summary>
+		/// Функция сложения, которая работает корректно только при вводе
+		/// двух и более чисел типа double, перечисленных через запятую
+		/// </summary>
+		/// <param name="input">Пользовательская строка с числами-аргументами функции сложения</param>
+		/// <returns>Возвращает сумму указанных чисел, если введенная строка удовлетворяет указанным требованиям
+		/// и выбрасывает ошибку <see = cref "ArgumentException"/> в противном случае</returns>
 		public double Add2(string input)
 		{
 			double result = 0;
@@ -61,7 +97,14 @@ namespace SumCalculator
 			return result;
 
 		}
-
+		/// <summary>
+		/// Функция сложения, которая работает корректно только при вводе
+		/// двух и более чисел типа double, перечисленных через один произвольный разделитель
+		/// из мнжества {~!@#$%^&*()_;,\\s}
+		/// </summary>
+		/// <param name="input">Пользовательская строка с числами-аргументами функции сложения</param>
+		/// <returns>Возвращает сумму указанных чисел, если введенная строка удовлетворяет указанным требованиям
+		/// и выбрасывает ошибку <see = cref "ArgumentException"/> в противном случае</returns>
 		public double Add3(string input)
 		{
 			double result = 0;
@@ -75,6 +118,16 @@ namespace SumCalculator
 			return result;
 		}
 
+		/// <summary>
+		/// Функция сложения, которая работает корректно только при вводе
+		/// двух и более неотрицательных чисел типа double, перечисленных через один произвольный разделитель
+		/// из мнжества {~!@#$%^&*()_;,\\s}
+		/// </summary>
+		/// <param name="input">Пользовательская строка с числами-аргументами функции сложения</param>
+		/// <returns>Возвращает сумму указанных чисел, если если введенная строка удовлетворяет указанным требованиям
+		/// и выбрасывает ошибку <see = cref "ArgumentException"/> в противном случае
+		/// Если ошибка вызвана наличием отрицательных чисел,
+		/// то они записываются в экземпляр negative ошибки</returns>
 		public double Add4(string input)
 		{
 			double result = 0;
@@ -88,7 +141,7 @@ namespace SumCalculator
 			{
 				if (doubleArgs[i] < 0)
 				{
-					negative.Data.Add(string.Format("Position: {0}", j), doubleArgs[i]);
+					negative.Data.Add(string.Format("Element: {0}", j), doubleArgs[i]);
 					j++;
 				}
 				result += doubleArgs[i];
@@ -100,6 +153,16 @@ namespace SumCalculator
 			return result;
 		}
 
+		/// <summary>
+		/// Функция сложения, которая работает корректно только при вводе
+		/// двух и более неотрицательных чисел типа double, перечисленных через 
+		/// один или несколько произвольных разделителей из мнжества {~!@#$%^&*()_;,\\s}
+		/// </summary>
+		/// <param name="input">Пользовательская строка с числами-аргументами функции сложения</param>
+		/// <returns>Возвращает сумму указанных чисел, если если введенная строка удовлетворяет указанным требованиям
+		/// и выбрасывает ошибку <see = cref "ArgumentException"/> в противном случае
+		/// Если ошибка вызвана наличием отрицательных чисел,
+		/// то они записываются в экземпляр negative ошибки</returns>
 		public double Add5(string input)
 		{
 			double result = 0;
